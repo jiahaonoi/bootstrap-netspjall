@@ -1,0 +1,25 @@
+html,body, #root {
+  min-height: 100%;
+}
+
+body {
+  background-color: #eee;
+}
+
+.message {
+  text-align: justify;
+  margin-top: 0.5rem;
+  max-width: 70%;
+  padding: 0.5rem;
+  float: left;
+  clear: both;
+  background-color: #eee;
+  border-radius: 0.75rem 0.75rem 0.75rem 0;
+}
+
+.message_from-myself {
+  float: right;
+  color: white;
+  background-color: #007bff;
+  border-radius: 0.75rem 0.75rem 0rem 0.75rem;
+}
