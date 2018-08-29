@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 
 class ChatMessages extends Component {
 
+  componentDidUpdate(){
+    document.getElementById('messages') ? document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight : null;
+  }
+
   render() {
 
     const messages = this.props.messages;

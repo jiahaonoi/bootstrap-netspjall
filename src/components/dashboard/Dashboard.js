@@ -50,17 +50,62 @@ class Dashboard extends Component {
 
   render() {
     return (
-      <div className="container" style={{paddingTop: '1rem'}}>
+      <div className="container pt-3">
       <div className="card mt-3 mb-3">
       <div className="card-body">
-        {this.state.adminID ? 
-        <div>Dashboard <button onClick={this.signOut}>logout</button><DashboardQueue fb={this.props.fb} setClientID={this.setClientID}/></div> 
-        : 
-        <DashboardLogin fb={this.props.fb} setUser={this.setUser} />}
-        {this.state.clientID ? <ChatMessages adminID={this.state.adminID} uid={this.state.clientID} fb={this.props.fb}/> : null}
-        {this.state.clientID ? <ChatInput adminID={this.state.adminID} uid={this.state.clientID} fb={this.props.fb}/> : null}
+
+  <div class="row">
+    <div class="col">
+    <div class="list-group">
+  <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">List group item heading</h5>
+      <small>3 days ago</small>
+    </div>
+    <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+    <small>Donec id elit non mi porta.</small>
+  </a>
+  <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">List group item heading</h5>
+      <small class="text-muted">3 days ago</small>
+    </div>
+    <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+    <small class="text-muted">Donec id elit non mi porta.</small>
+  </a>
+  <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">List group item heading</h5>
+      <small class="text-muted">3 days ago</small>
+    </div>
+    <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+    <small class="text-muted">Donec id elit non mi porta.</small>
+  </a>
+</div>
+    </div>
+    <div class="col">
+    {this.state.clientID && this.state.adminID ? <ChatMessages adminID={this.state.adminID} uid={this.state.clientID} fb={this.props.fb}/> : null}
+        {this.state.clientID && this.state.adminID ? <ChatInput adminID={this.state.adminID} uid={this.state.clientID} fb={this.props.fb}/> : null}
+    </div>
+    <div class="col">
+{this.state.adminID ? 
+  <div>Dashboard <button onClick={this.signOut}>logout</button><DashboardQueue fb={this.props.fb} setClientID={this.setClientID}/></div> 
+  : 
+  <DashboardLogin fb={this.props.fb} setUser={this.setUser} />}
+    </div>
+  </div>
+
+
+
+
+
+
         
-      </div></div></div>
+
+
+      </div>
+      </div>
+      </div>
       )
   }
 }

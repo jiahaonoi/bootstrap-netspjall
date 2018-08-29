@@ -8,6 +8,10 @@ class ChatMessages extends Component {
     };
   }
 
+    componentDidUpdate(){
+    document.getElementById('messages') ? document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight : null;
+  }
+
   componentDidMount(){
     const getMessages = () => {
       // Initialize Cloud Firestore through Firebase
@@ -71,6 +75,9 @@ class ChatMessages extends Component {
       }
       getMessages();
     }
+
+    document.getElementById('messages') ? document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight : null;
+
   } 
 
   componentWillUnmount(){
