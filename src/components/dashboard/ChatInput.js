@@ -11,10 +11,11 @@ class ChatInput extends Component {
 
   handleChange(event) {
     this.setState({value: event.target.value});
+    this.props.setActive(this.props.adminID);
   }
 
   handleSubmit(event) {
-
+    this.props.setActive(this.props.adminID);
     event.preventDefault();
 
     // Initialize Cloud Firestore through Firebase

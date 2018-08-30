@@ -4,6 +4,7 @@ import DashboardLogin from './DashboardLogin';
 import DashboardQueue from './DashboardQueue';
 import ChatMessages from './ChatMessages';
 import ChatInput from './ChatInput';
+import ActivityLight from './ActivityLight';
 
 class Dashboard extends Component {
   constructor(props) {
@@ -11,7 +12,9 @@ class Dashboard extends Component {
     this.state = {
       adminID: '',
       clientID: '',
-      clients: {}
+      clients: {},
+      lastActive: '',
+      active: true
     };
   }
 
@@ -24,13 +27,20 @@ class Dashboard extends Component {
         console.log('admin is signed in.');
         // User is signed in.
         var uid = user.uid;
+
         this.setState({adminID : uid})
+
+        this.setOnline(uid);
       } else {
         // User is signed out.
         console.log('admin is signed out');
       }
       // ...
     });
+  }
+
+  componentWillUpdate(){
+
   }
 
   signOut = () => {
@@ -80,6 +90,31 @@ class Dashboard extends Component {
         });
     
   }
+  
+  setOnline = (adminID) => {
+
+    const firebase = this.props.fb;
+    var db = firebase.firestore();
+
+    var docData = {
+      lastActive: new Date(),
+      uid: adminID
+    };
+    db.collection("online").doc(adminID).set(docData).then(() => {
+        console.log("Document successfully written!");
+        this.setState({ lastActive: new Date() })
+    });
+  }
+
+  setActive = (firebase, adminID) => {
+    const now = new Date();
+    const then = this.state.lastActive;
+    const between = now.getTime() - then.getTime();
+
+    if(between > 10000){ // more than 10 seconds since last updated
+      this.setOnline(firebase, adminID)
+    }
+  }
 
 
   render() {
@@ -120,7 +155,7 @@ class Dashboard extends Component {
     </div>
     <div class="col">
     {this.state.clientID && this.state.adminID ? <ChatMessages adminID={this.state.adminID} uid={this.state.clientID} fb={this.props.fb}/> : null}
-        {this.state.clientID && this.state.adminID ? <ChatInput adminID={this.state.adminID} uid={this.state.clientID} fb={this.props.fb}/> : null}
+        {this.state.clientID && this.state.adminID ? <ChatInput setActive={this.setActive} adminID={this.state.adminID} uid={this.state.clientID} fb={this.props.fb}/> : null}
     </div>
     <div class="col">
 {this.state.adminID ? 
