@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ActivityLight from './ActivityLight';
 
 class QueueItem extends Component {
   constructor(props) {
@@ -42,7 +43,7 @@ class QueueItem extends Component {
       <button onClick={this.setID} type="button" class="list-group-item list-group-item-action">     
         <div class="d-flex w-100 justify-content-between">
           <h5 class="mb-1">{this.props.item.name}</h5>
-          <small>{minutes}:{seconds}</small>
+          <small>{minutes}:{seconds} <ActivityLight uid={this.props.item.uid} fb={this.props.fb}/></small>
         </div>
       </button>
       )

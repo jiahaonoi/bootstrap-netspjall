@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import firebase from "firebase";
+import ifvisible from 'ifvisible.js'
 import Chat from './components/Chat';
 import Login from './components/Login';
 import Logout from './components/Logout';
@@ -28,6 +29,7 @@ class App extends Component {
     this.state = {
       uid: '',
       name: '',
+      lastActive: new Date()
     };
   }
 
@@ -53,6 +55,12 @@ class App extends Component {
         console.log('signed out');
       }
       // ...
+    });
+
+    // Check every n seconds check if user is inactive
+    ifvisible.setIdleDuration(5);
+    ifvisible.on("wakeup", ()=>{
+      if(this.state.uid) this.setUserOnline(this.state.uid);
     });
 
   }
@@ -116,8 +124,23 @@ class App extends Component {
 
   }
 
+  setUserOnline = (uid) => {
+    // Initialize Cloud Firestore through Firebase
+
+    var db = firebase.firestore();
+
+    // Add a new document in collection
+    db.collection("users").doc(uid).set({
+      lastActive: new Date(),
+    })
+    .then(function() {
+      console.log("User online status successfully written!");
+    })
+    .catch(function(error) {
+      console.error("Error setting online status document: ", error);
+    });
+  }
   render() {
-    console.log(this.state.name)
     return (
       <Switch>
         {this.state.uid ?  
