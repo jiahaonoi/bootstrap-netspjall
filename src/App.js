@@ -31,6 +31,11 @@ class App extends Component {
     };
   }
 
+  resetState = () => {this.setState({
+    uid: '',
+    name: '',
+  })}
+
   componentDidMount() {
 
     var user = firebase.auth().currentUser;
@@ -80,7 +85,7 @@ class App extends Component {
     db.collection('queue/').add({
       uid,
       date,
-      name
+      name,
     })
     .then(function(docRef) {
       console.log("Set to queue written with ID: ", docRef.id);
@@ -116,7 +121,7 @@ class App extends Component {
     return (
       <Switch>
         {this.state.uid ?  
-        <Route exact path="/" render={props => ( <Chat fb={firebase} uid={this.state.uid} displayName={this.state.name} {...props} /> )} />
+        <Route exact path="/" render={props => ( <Chat fb={firebase} uid={this.state.uid} displayName={this.state.name} reset={this.resetState} {...props} /> )} />
         :
         <Route exact path="/" render={props => ( <Login fb={firebase} setUserInfo={this.setUserInfo} {...props} /> )} />
         }

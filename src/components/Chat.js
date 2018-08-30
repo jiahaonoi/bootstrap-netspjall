@@ -13,6 +13,7 @@ class Chat extends Component {
       messages: {},
     };
   }
+
   componentDidMount(){
     const getMessages = () => {
       // Initialize Cloud Firestore through Firebase
@@ -54,7 +55,7 @@ class Chat extends Component {
       <div className="container p-0 mt-md-2 h-100">
         <div className="card">
           <div className="card-body">
-            <ChatHeader agent={this.state.agent}/>
+            <ChatHeader agent={this.state.agent} fb={this.props.fb} reset={this.props.reset}/>
             {this.props.uid ? <ChatMessages fb={this.props.fb} uid={this.props.uid} messages={this.state.messages}/> : null}
             <ChatInput fb={this.props.fb} uid={this.props.uid} displayName={this.props.displayName}/>
           </div>

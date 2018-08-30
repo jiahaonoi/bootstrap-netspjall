@@ -43,10 +43,44 @@ class Dashboard extends Component {
     });
   }
 
-  setClientID = (clientID) => {
-    console.log('opening client id '+clientID)
-    this.setState({clientID})
+  setClientID = (object, id) => {
+    console.log('dashboard is opening client id '+object.uid);
+    this.setState({ clientID:object.uid });
+    this.setNewClient( object.uid );
+    console.log(object);
+    this.setRemoveQueue(object, id, this.state.adminID);
   }
+
+  setNewClient = (clientID) => {
+    const clients = {...this.state.clients, [clientID]: 'true'};
+    this.setState({clients});
+  }
+
+  setRemoveQueue = (object, queueID, adminID) => {
+    console.log('removing doc '+ queueID +' by admin id '+adminID);
+
+    const firebase = this.props.fb;
+    var db = firebase.firestore();
+
+    var queueRef = db.collection('queue').doc(queueID);
+
+        // Add a new document with a generated id.
+        db.collection('queueOpened/').add(object)
+        .then(function(docRef) {
+                  console.log("Added new opened ID: ", docRef.id);
+                  queueRef.delete().then(function() {
+                      console.log("Document successfully deleted from Q!");
+                  }).catch(function(error) {
+                      console.error("Error removing document: ", error);
+                  });
+                  
+        })
+        .catch(function(error) {
+          console.error("Error connecting to Q document: ", error);
+        });
+    
+  }
+
 
   render() {
     return (
@@ -57,6 +91,7 @@ class Dashboard extends Component {
   <div class="row">
     <div class="col">
     <div class="list-group">
+    {Object.keys(this.state.clients)}
   <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active">
     <div class="d-flex w-100 justify-content-between">
       <h5 class="mb-1">List group item heading</h5>

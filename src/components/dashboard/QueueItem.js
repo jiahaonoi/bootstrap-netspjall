@@ -24,7 +24,7 @@ class QueueItem extends Component {
 
   setID = () => {
     console.log('setid queitem')
-    this.props.setClientID(this.props.item.uid);
+    this.props.setClientID(this.props.item, this.props.id);
   }
 
   render() {
@@ -39,11 +39,12 @@ class QueueItem extends Component {
     if (Number.isNaN(seconds)) seconds = '00';
 
     return (
-      <div className="card" onClick={this.setID}>
-        <div className="card-body">
-          {this.props.item.name} {minutes}:{seconds}
+      <button onClick={this.setID} type="button" class="list-group-item list-group-item-action">     
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">{this.props.item.name}</h5>
+          <small>{minutes}:{seconds}</small>
         </div>
-      </div>
+      </button>
       )
   }
 }
