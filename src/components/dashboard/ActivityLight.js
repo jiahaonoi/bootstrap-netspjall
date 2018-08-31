@@ -11,7 +11,8 @@ class ActivityLight extends Component {
     var db = this.props.fb.firestore();
     db.collection("users").doc(this.props.uid)
     .onSnapshot((doc) => {
-      const lastActive = doc.data().lastActive;
+      let lastActive;
+      if(doc.data()) lastActive = doc.data().lastActive;
       this.setState({lastActive});
     });
     

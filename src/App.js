@@ -132,7 +132,7 @@ class App extends Component {
     // Add a new document in collection
     db.collection("users").doc(uid).set({
       lastActive: new Date(),
-    })
+    }, { merge: true })
     .then(function() {
       console.log("User online status successfully written!");
     })
@@ -140,15 +140,39 @@ class App extends Component {
       console.error("Error setting online status document: ", error);
     });
   }
+
+  setLatestMessage = (uid, message) => {
+    // Initialize Cloud Firestore through Firebase
+
+    var db = firebase.firestore();
+    // Add a new document in collection
+    db.collection("users").doc(uid).set({
+      latestMessage: message,
+    }, { merge: true })
+    .then(function() {
+      console.log("User message latest successfully written!");
+    })
+    .catch(function(error) {
+      console.error("Error setting latest message document: ", error);
+    });
+  }
+
   render() {
     return (
       <Switch>
         {this.state.uid ?  
-        <Route exact path="/" render={props => ( <Chat fb={firebase} uid={this.state.uid} displayName={this.state.name} reset={this.resetState} {...props} /> )} />
+        <Route exact path="/" render={props => ( 
+          <Chat 
+          fb={firebase} 
+          uid={this.state.uid} 
+          displayName={this.state.name} 
+          reset={this.resetState} 
+          setLatestMessage={this.setLatestMessage}
+          {...props} /> )} />
         :
         <Route exact path="/" render={props => ( <Login fb={firebase} setUserInfo={this.setUserInfo} {...props} /> )} />
         }
-        <Route path="/dashboard" render={props => ( <Dashboard  fb={firebase} {...props} /> )} />
+        <Route path="/dashboard" render={props => ( <Dashboard  fb={firebase} setLatestMessage={this.setLatestMessage} {...props} /> )} />
         <Route path="/logout" render={props => ( <Logout  fb={firebase} {...props} /> )} />
       </Switch>
       

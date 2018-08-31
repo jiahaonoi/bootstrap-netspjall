@@ -4,7 +4,7 @@ import DashboardLogin from './DashboardLogin';
 import DashboardQueue from './DashboardQueue';
 import ChatMessages from './ChatMessages';
 import ChatInput from './ChatInput';
-import ActivityLight from './ActivityLight';
+import ClientList from './ClientList';
 
 class Dashboard extends Component {
   constructor(props) {
@@ -35,13 +35,10 @@ class Dashboard extends Component {
         // User is signed out.
         console.log('admin is signed out');
       }
-      // ...
+      // ... l I
     });
   }
 
-  componentWillUpdate(){
-
-  }
 
   signOut = () => {
     const firebase = this.props.fb;
@@ -68,6 +65,9 @@ class Dashboard extends Component {
 
   setRemoveQueue = (object, queueID, adminID) => {
     console.log('removing doc '+ queueID +' by admin id '+adminID);
+    
+    // add adminID to object
+    object['adminID'] = adminID;
 
     const firebase = this.props.fb;
     var db = firebase.firestore();
@@ -122,46 +122,21 @@ class Dashboard extends Component {
       <div className="container pt-3">
       <div className="card mt-3 mb-3">
       <div className="card-body">
+{this.state.adminID ? 
+  <div>Dashboard <button onClick={this.signOut}>logout</button></div> 
+  : 
+  <DashboardLogin fb={this.props.fb} setUser={this.setUser} />}
 
   <div class="row">
     <div class="col">
-    <div class="list-group">
-    {Object.keys(this.state.clients)}
-  <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active">
-    <div class="d-flex w-100 justify-content-between">
-      <h5 class="mb-1">List group item heading</h5>
-      <small>3 days ago</small>
-    </div>
-    <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-    <small>Donec id elit non mi porta.</small>
-  </a>
-  <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-    <div class="d-flex w-100 justify-content-between">
-      <h5 class="mb-1">List group item heading</h5>
-      <small class="text-muted">3 days ago</small>
-    </div>
-    <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-    <small class="text-muted">Donec id elit non mi porta.</small>
-  </a>
-  <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-    <div class="d-flex w-100 justify-content-between">
-      <h5 class="mb-1">List group item heading</h5>
-      <small class="text-muted">3 days ago</small>
-    </div>
-    <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-    <small class="text-muted">Donec id elit non mi porta.</small>
-  </a>
-</div>
+      <ClientList adminID={this.state.adminID} fb={this.props.fb}/>
     </div>
     <div class="col">
     {this.state.clientID && this.state.adminID ? <ChatMessages adminID={this.state.adminID} uid={this.state.clientID} fb={this.props.fb}/> : null}
-        {this.state.clientID && this.state.adminID ? <ChatInput setActive={this.setActive} adminID={this.state.adminID} uid={this.state.clientID} fb={this.props.fb}/> : null}
+        {this.state.clientID && this.state.adminID ? <ChatInput setActive={this.setActive} adminID={this.state.adminID} uid={this.state.clientID} setLatestMessage={this.setLatestMessage} fb={this.props.fb}/> : null}
     </div>
     <div class="col">
-{this.state.adminID ? 
-  <div>Dashboard <button onClick={this.signOut}>logout</button><DashboardQueue fb={this.props.fb} setClientID={this.setClientID}/></div> 
-  : 
-  <DashboardLogin fb={this.props.fb} setUser={this.setUser} />}
+    {this.state.adminID ? <DashboardQueue fb={this.props.fb} setClientID={this.setClientID}/> : null}
     </div>
   </div>
 

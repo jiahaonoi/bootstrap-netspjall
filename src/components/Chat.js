@@ -57,7 +57,7 @@ class Chat extends Component {
           <div className="card-body">
             <ChatHeader agent={this.state.agent} fb={this.props.fb} reset={this.props.reset}/>
             {this.props.uid ? <ChatMessages fb={this.props.fb} uid={this.props.uid} messages={this.state.messages}/> : null}
-            <ChatInput fb={this.props.fb} uid={this.props.uid} displayName={this.props.displayName}/>
+            <ChatInput fb={this.props.fb} uid={this.props.uid} displayName={this.props.displayName} setLatestMessage={this.props.setLatestMessage}/>
           </div>
         </div>
       </div>

@@ -35,8 +35,8 @@ class ChatInput extends Component {
           date,
           name
         })
-        .then(function(docRef) {
-          console.log("Document written with ID: ", docRef.id);
+        .then((docRef) => {
+          this.props.setLatestMessage(uid, message);
         })
         .catch(function(error) {
           console.error("Error adding document: ", error);
