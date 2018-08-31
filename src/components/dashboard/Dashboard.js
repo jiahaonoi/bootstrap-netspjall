@@ -119,7 +119,7 @@ class Dashboard extends Component {
 
   render() {
     return (
-      <div className="container pt-3">
+      <div className="container-fluid pt-3">
       <div className="card mt-3 mb-3">
       <div className="card-body">
 {this.state.adminID ? 
@@ -129,11 +129,13 @@ class Dashboard extends Component {
 
   <div class="row">
     <div class="col">
-      <ClientList adminID={this.state.adminID} fb={this.props.fb}/>
+    {this.state.adminID ? <ClientList setClientID={this.setClientID} adminID={this.state.adminID} fb={this.props.fb}/> : null}
+      
+      
     </div>
     <div class="col">
     {this.state.clientID && this.state.adminID ? <ChatMessages adminID={this.state.adminID} uid={this.state.clientID} fb={this.props.fb}/> : null}
-        {this.state.clientID && this.state.adminID ? <ChatInput setActive={this.setActive} adminID={this.state.adminID} uid={this.state.clientID} setLatestMessage={this.setLatestMessage} fb={this.props.fb}/> : null}
+        {this.state.clientID && this.state.adminID ? <ChatInput setActive={this.setActive} adminID={this.state.adminID} uid={this.state.clientID} setLatestMessage={this.props.setLatestMessage} fb={this.props.fb}/> : null}
     </div>
     <div class="col">
     {this.state.adminID ? <DashboardQueue fb={this.props.fb} setClientID={this.setClientID}/> : null}

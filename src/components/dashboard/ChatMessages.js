@@ -102,7 +102,7 @@ class ChatMessages extends Component {
 
     return (
 
-    <div style={{overflowY: 'scroll', height:'40vh'}} id="messages">
+    <div id="messages">
       <div className="card-body">
         {messageElements}
       </div>

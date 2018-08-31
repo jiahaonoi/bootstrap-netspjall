@@ -7,7 +7,6 @@ body {
 }
 
 .message {
-  text-align: justify;
   margin-top: 0.5rem;
   max-width: 70%;
   padding: 0.5rem;
@@ -17,9 +16,15 @@ body {
   border-radius: 0.75rem 0.75rem 0.75rem 0;
 }
 
+#messages {
+  overflow-Y: 'auto';
+
+}
+
 .message_from-myself {
   float: right;
   color: white;
   background-color: #007bff;
   border-radius: 0.75rem 0.75rem 0rem 0.75rem;
 }
+

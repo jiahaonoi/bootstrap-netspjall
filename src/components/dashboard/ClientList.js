@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ClientItem from './ClientItem';
+import QueueItem from './QueueItem';
 
 class DashboardQueue extends Component {
   constructor(props) {
@@ -11,6 +11,7 @@ class DashboardQueue extends Component {
   
 
   componentDidMount(){
+    console.log('client list for '+this.props.adminID)
     const firebase = this.props.fb;
     var db = firebase.firestore();
 
@@ -48,7 +49,7 @@ class DashboardQueue extends Component {
 
     const clients = this.state.clients;
     const messageElements = Object.keys(clients).map(
-      (item,key) => <ClientItem key={key} item={clients[item]} id={item} setClientID={this.props.setClientID} fb={this.props.fb}/>
+      (item,key) => <QueueItem key={key} item={clients[item]} id={item} setClientID={this.props.setClientID} fb={this.props.fb}/>
     );
 
     return (
