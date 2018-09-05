@@ -27,6 +27,7 @@ class QueueItem extends Component {
   setID = () => {
     console.log('setid queitem')
     this.props.setClientID(this.props.item, this.props.id);
+    this.props.setRemoveQueue(this.props.item, this.props.id);
   }
 
   render() {

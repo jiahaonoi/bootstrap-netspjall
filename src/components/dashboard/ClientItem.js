@@ -25,7 +25,7 @@ class QueueItem extends Component {
   }
 
   setID = () => {
-    console.log('client')
+    this.props.setClientID(this.props.item, this.props.id);
   }
 
   render() {
@@ -46,6 +46,7 @@ class QueueItem extends Component {
           <small>{minutes}:{seconds} <ActivityLight uid={this.props.item.uid} fb={this.props.fb}/></small>
         </div>
         <LatestMessage uid={this.props.item.uid} fb={this.props.fb}/>
+        <button onClick={this.props.removeButton} >X</button>
       </button>
       )
   }

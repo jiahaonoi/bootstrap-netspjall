@@ -55,7 +55,6 @@ class Dashboard extends Component {
     this.setState({ clientID:object.uid });
     this.setNewClient( object.uid );
     console.log(object);
-    this.setRemoveQueue(object, id, this.state.adminID);
   }
 
   setNewClient = (clientID) => {
@@ -63,9 +62,9 @@ class Dashboard extends Component {
     this.setState({clients});
   }
 
-  setRemoveQueue = (object, queueID, adminID) => {
-    console.log('removing doc '+ queueID +' by admin id '+adminID);
-    
+  setRemoveQueue = (object, queueID) => {
+    const adminID = this.state.adminID;
+    console.log('======removing doc '+ queueID +' by admin id '+adminID);
     // add adminID to object
     object['adminID'] = adminID;
 
@@ -80,6 +79,34 @@ class Dashboard extends Component {
                   console.log("Added new opened ID: ", docRef.id);
                   queueRef.delete().then(function() {
                       console.log("Document successfully deleted from Q!");
+                  }).catch(function(error) {
+                      console.error("Error removing document: ", error);
+                  });
+                  
+        })
+        .catch(function(error) {
+          console.error("Error connecting to Q document: ", error);
+        });
+    
+  }
+
+  setClientDone = (object, queueID) => {
+    console.log('removing doc from opened '+ queueID);
+    
+    // add adminID to object
+    object['dateClosed'] = new Date();
+
+    const firebase = this.props.fb;
+    var db = firebase.firestore();
+
+    var queueRef = db.collection('queueOpened').doc(queueID);
+
+        // Add a new document with a generated id.
+        db.collection('queueDone/').add(object)
+        .then(function(docRef) {
+                  console.log("Added new done ID: ", docRef.id);
+                  queueRef.delete().then(function() {
+                      console.log("Document successfully deleted from done Q!");
                   }).catch(function(error) {
                       console.error("Error removing document: ", error);
                   });
@@ -129,7 +156,7 @@ class Dashboard extends Component {
 
   <div class="row">
     <div class="col">
-    {this.state.adminID ? <ClientList setClientID={this.setClientID} adminID={this.state.adminID} fb={this.props.fb}/> : null}
+    {this.state.adminID ? <ClientList setClientID={this.setClientID} setClientDone={this.setClientDone}adminID={this.state.adminID} fb={this.props.fb}/> : null}
       
       
     </div>
@@ -137,8 +164,8 @@ class Dashboard extends Component {
     {this.state.clientID && this.state.adminID ? <ChatMessages adminID={this.state.adminID} uid={this.state.clientID} fb={this.props.fb}/> : null}
         {this.state.clientID && this.state.adminID ? <ChatInput setActive={this.setActive} adminID={this.state.adminID} uid={this.state.clientID} setLatestMessage={this.props.setLatestMessage} fb={this.props.fb}/> : null}
     </div>
-    <div class="col">
-    {this.state.adminID ? <DashboardQueue fb={this.props.fb} setClientID={this.setClientID}/> : null}
+    <div class="col"> 
+    {this.state.adminID ? <DashboardQueue fb={this.props.fb} setClientID={this.setClientID} setRemoveQueue={this.setRemoveQueue}/> : null}
     </div>
   </div>
 

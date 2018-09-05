@@ -46,7 +46,7 @@ class DashboardQueue extends Component {
 
     const messages = this.state.messages;
     const messageElements = Object.keys(messages).map(
-      (item,key) => <QueueItem key={key} item={messages[item]} id={item} setClientID={this.props.setClientID} fb={this.props.fb}/>
+      (item,key) => <QueueItem key={key} item={messages[item]} id={item} setClientID={this.props.setClientID} setRemoveQueue={this.props.setRemoveQueue} fb={this.props.fb}/>
     );
 
     return (
